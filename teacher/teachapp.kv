@@ -6,6 +6,7 @@
 <Button>:
 	background_color: (0, 0, 0, 0)
 	background_normal: ''
+	color: (0, 0, 0, 1)
 
 	canvas.before:
 		Color:
@@ -17,6 +18,7 @@
 			radius: [20,]
 
 <Label>:
+	font_size: 32
 	font_name: 'fonts/Alternates'
 
 <TabelRow@GridLayout>:
@@ -92,6 +94,77 @@
 			on_release: root.check()
 
 
+<ChooseTest@Popup>:
+
+	on_open: root.tb_list()
+
+	size_hint: None, None
+	size: 560, 600
+	title: 'Выберите тест.'
+
+	ScrollView:
+
+		size: self.size
+		pos_hint: {'top': 1}
+
+		GridLayout:
+
+			id: ch_tb
+
+			size_hint_y: None
+			height: self.minimum_height
+
+			cols: 2
+			padding: 10
+			spacing: 10
+
+
+<CreateTest@Popup>:
+	
+	title: 'Создать тест.'
+
+	size_hint: None, None
+	size: 1080, 300
+
+	GridLayout:
+
+		id: create_popup
+		rows: 2
+
+		BoxLayout:
+			size_hint_y: None
+			height: 100
+			Label:
+				text: 'Загрузить тест из xlsx.'
+
+		BoxLayout:
+			size_hint_y: None
+			height: 100
+			Label:
+				text: 'Создать тест здесь.'
+
+		AnchorLayout:
+			anchor_y: 'center'
+			anchor_x: 'center'
+		
+			TextInput:
+				size_hint: None, None
+				size: 300, 50
+				halign: 'center'
+				font_size: 32
+				hint_text: 'имя_файла.xlsx'
+
+		AnchorLayout:
+			anchor_y: 'center'
+			anchor_x: 'center'
+
+			Button:
+				size_hint: None, None
+				size: 300, 50
+				text: 'Создать'
+				on_release: root.go_create()
+
+
 
 <homepage>:
 
@@ -127,21 +200,15 @@
 
 
 				spacing: 10
-				padding: 10
+				padding: 15
 				cols: 1
 				size_hint_x: .1
-				orientation: 'lr-tb'
+				orientation: 'rl-tb'
 
 				Button:
 					size_hint: None, None
-					size: 50, 50
-					text: 'G'
-					on_release: root.page = 1, root.go_page()
-
-				Button:
-					size_hint: None, None
-					size: 50, 50
-					on_release: root.page = 2, root.go_page()
+					size: self.width, self.width
+					on_release:Factory.ChooseTest().open()
 					Image:
 						source: 'img/choose.ico'
 						x: self.parent.x+5
@@ -152,8 +219,8 @@
 
 				Button:
 					size_hint: None, None
-					size: 50, 50
-					on_release: root.page = 3, root.go_page()
+					size: self.width, self.width
+					on_release: Factory.CreateTest().open()
 					Image:
 						source: 'img/create.ico'
 						x: self.parent.x+5
@@ -161,7 +228,6 @@
 						width: self.parent.width-10
 						height: self.parent.height-10
 						keep_ratio: False
-
 
 			ScrollView:
 
@@ -205,9 +271,12 @@
 							color: (0, 0, 0, 1)
 							on_release: root.write_xlsx(), Factory.ExcelPopup().open()
 
-					Label:
-						text: '\nСВОДНАЯ ТАБЛИЦА'
-						font_size: 14
+					BoxLayout:
+						size_hint_y: None
+						height: 50
+
+						Label:
+							text: '\nСВОДНАЯ ТАБЛИЦА'
 
 					GridLayout:
 
@@ -220,85 +289,49 @@
 						TabelRow:
 
 							id: table_students
+							spacing: 20
 
-							Label: 
-								id: test
-								text: 'Тест'
-								font_size: 12
-								height: dp(30)
+							BoxLayout:
 								size_hint_y: None
+								height: 50
+								Label: 
+									id: test
+									text: 'Тест'
+									height: dp(30)
+									size_hint_y: None
+									color: hex('f39f18')
 
-							Label: 
-								id: fio
-								text: 'Имя Фамилия'
-								font_size: 12
-								height: dp(30)
+							BoxLayout:
 								size_hint_y: None
+								height: 50
+								Label: 
+									id: fio
+									text: 'Имя Фамилия'
+									height: dp(30)
+									size_hint_y: None
+									color: hex('f39f18')
 
-							Label: 
-								id: class_
-								text: 'Класс'
-								font_size: 12
-								height: dp(30)
+							BoxLayout:
 								size_hint_y: None
+								height: 50
+								Label: 
+									id: class_
+									text: 'Класс'
+									height: dp(30)
+									size_hint_y: None
+									color: hex('f39f18')
 
-							Label: 
-								id: grade
-								text: 'Оценка'
-								font_size: 12
-								height: dp(30)
+							BoxLayout:
 								size_hint_y: None
+								height: 50
+								Label: 
+									id: grade
+									text: 'Оценка'
+									height: dp(30)
+									size_hint_y: None
+									color: hex('f39f18')
 
+<createscreen>:
 
-<createtest>:
-
-
-	BoxLayout:
-
-		pos_hint: {'center_x':1.4, 'center_y':1.4}
-
-		Button:
-			size: (75, 50)
-			size_hint: None, None
-			text: 'Back'
-			font_size: 10
-
-			on_press: root.go_back()
-
-
-	GridLayout:
-
-		cols: 1
-		rows: 2
-		size_hint: [.4, .3]
-		spacing: 30
-		pos_hint: {'center_x': 0.5, 'center_y': 0.5}
-		row_default_height: 50
-		row_force_default: True
-
-		GridLayout:
-
-			cols: 2
-			rows: 1
-			size_hint: [.5, .5]
-
-			Label:
-
-				size_hint: [.4, 1]
-				text: 'Имя файла: '
-				font_size: 20
-
-			TextInput:
-
-				size_hint: [.4, None]
-				size: [200, 40]
-				id: filename
-				hint_text: 'example.xlsx'
-				font_size: 20
-
-		Button:
-
-			text: 'Загрузить тест из excel'
-			font_size: 20
-
-			on_press: root.upload()
+	Label:
+		text: 'create'

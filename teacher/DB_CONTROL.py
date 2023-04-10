@@ -34,3 +34,23 @@ def get_std_res():
 	# tr = [['subject', 'L_n. Name', 'class_', 'grade'],  [...]]
 
 	return tr
+
+
+def get_tbs():
+	conn, cur = conn_open()
+	cmd = 'SELECT name FROM sqlite_master WHERE type="table";'
+	cur.execute(cmd)
+
+	# [('sqlite_sequence',), ('infoge',), ('students_result',)]
+	data = cur.fetchall()
+	data = list(map(lambda x: x[0], data))
+
+	no_test_tb = [
+	'sqlite_sequence',
+	'students_result',
+	]
+
+	for tb_name in no_test_tb:
+		del data[data.index(tb_name)]
+
+	return data
