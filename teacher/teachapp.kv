@@ -1,0 +1,304 @@
+#: import Button kivy.uix.button.Button
+#:import C kivy.utils.get_color_from_hex
+#:import hex kivy.utils.get_color_from_hex
+#:import Factory kivy.factory.Factory
+
+<Button>:
+	background_color: (0, 0, 0, 0)
+	background_normal: ''
+
+	canvas.before:
+		Color:
+			rgba: hex('f39f18')
+
+		RoundedRectangle:
+			pos: self.pos
+			size: self.size
+			radius: [20,]
+
+<Label>:
+	font_name: 'fonts/Alternates'
+
+<TabelRow@GridLayout>:
+
+	size_hint: .9, None
+	height: self.minimum_height
+
+	cols: 4
+
+	canvas.before:
+		Color:
+			rgba: (1, 1, 1, 1)
+		Line:
+			width: 1
+			rectangle: self.x, self.y, self.width, self.height
+
+
+<ExcelPopup>:
+	title: 'Экспорт завершён'
+	anchor_title: 'center'
+
+	size_hint: .3, .2
+
+	Button:
+		size_hint: .5, .8
+		text: 'открыть файл'
+		color: (0, 0, 0, 1)
+		pos_hint: {'center_y': 0.5}
+		on_release: root.go_xlsx()
+
+
+<MyPopup>:
+
+	id: my_popup
+	title: 'Проверка'
+	auto_dismiss: False
+	size_hint: None, None
+	size: 400, 200
+
+	BoxLayout:
+
+		orientation: 'vertical'
+		spacing: 10
+		size_hint: 1, None
+		pos_hint: {'center_y':0.5}
+
+		TextInput:
+
+			id: password_input
+
+			halign: 'center'
+			hint_text: 'пароль'
+			multiline: False
+			font_size: 28
+			focus: True
+			password: True
+			password_mask: '•'
+
+			size_hint: None, None
+			size: 150, 50
+			pos_hint:{'center_x':0.5}
+
+
+		Button:
+
+			text: 'Продолжить'
+			font_size: 12
+
+			size_hint: None, None
+			size: 100, 50
+			pos_hint:{'center_x':0.5}
+
+			on_release: root.check()
+
+
+
+<homepage>:
+
+	GridLayout:
+
+		cols: 1
+		rows: 2
+
+		BoxLayout:
+
+			canvas.before:
+				Color:
+					rgba: 1, 1, 1, 1
+				Line:
+					width: 1
+					rectangle: self.x, self.y, self.width, self.height
+
+			size_hint: 1, .05
+
+			Label:
+				text: 'TeachApp'
+
+		GridLayout:
+			cols: 2
+
+			GridLayout:
+
+				canvas.before:
+					Color:
+						rgba: 1, 1, 1, 1
+					Line:
+						rectangle: self.x, self.y, self.width, self.height
+
+
+				spacing: 10
+				padding: 10
+				cols: 1
+				size_hint_x: .1
+				orientation: 'lr-tb'
+
+				Button:
+					size_hint: None, None
+					size: 50, 50
+					text: 'G'
+					on_release: root.page = 1, root.go_page()
+
+				Button:
+					size_hint: None, None
+					size: 50, 50
+					on_release: root.page = 2, root.go_page()
+					Image:
+						source: 'img/choose.ico'
+						x: self.parent.x+5
+						y: self.parent.y+5
+						width: self.parent.width-10
+						height: self.parent.height-10
+						keep_ratio: False
+
+				Button:
+					size_hint: None, None
+					size: 50, 50
+					on_release: root.page = 3, root.go_page()
+					Image:
+						source: 'img/create.ico'
+						x: self.parent.x+5
+						y: self.parent.y+5
+						width: self.parent.width-10
+						height: self.parent.height-10
+						keep_ratio: False
+
+
+			ScrollView:
+
+				id: std_tb
+
+				size: self.size
+
+				GridLayout:
+
+					size_hint_y: None
+					height: self.minimum_height
+					
+					cols: 1
+
+					GridLayout:
+
+						orientation: 'rl-tb'
+						size_hint_y: None
+
+						rows: 1
+						height: 70
+						padding: 10
+						spacing: 10
+						
+						Button:
+							size_hint: None, None
+							size: 50, 50
+							on_release: root.repeat_tb()
+							Image:
+								source: 'img/repeat.ico'
+								x: self.parent.x
+								y: self.parent.y
+								width: self.parent.width
+								height: self.parent.height
+								keep_ratio: False
+
+						Button:
+							text: 'To excel'
+							size_hint: None, None
+							size: 150, 50
+							color: (0, 0, 0, 1)
+							on_release: root.write_xlsx(), Factory.ExcelPopup().open()
+
+					Label:
+						text: '\nСВОДНАЯ ТАБЛИЦА'
+						font_size: 14
+
+					GridLayout:
+
+						size_hint_y: None
+						height: self.minimum_height
+						padding: 30
+
+						cols: 1
+
+						TabelRow:
+
+							id: table_students
+
+							Label: 
+								id: test
+								text: 'Тест'
+								font_size: 12
+								height: dp(30)
+								size_hint_y: None
+
+							Label: 
+								id: fio
+								text: 'Имя Фамилия'
+								font_size: 12
+								height: dp(30)
+								size_hint_y: None
+
+							Label: 
+								id: class_
+								text: 'Класс'
+								font_size: 12
+								height: dp(30)
+								size_hint_y: None
+
+							Label: 
+								id: grade
+								text: 'Оценка'
+								font_size: 12
+								height: dp(30)
+								size_hint_y: None
+
+
+<createtest>:
+
+
+	BoxLayout:
+
+		pos_hint: {'center_x':1.4, 'center_y':1.4}
+
+		Button:
+			size: (75, 50)
+			size_hint: None, None
+			text: 'Back'
+			font_size: 10
+
+			on_press: root.go_back()
+
+
+	GridLayout:
+
+		cols: 1
+		rows: 2
+		size_hint: [.4, .3]
+		spacing: 30
+		pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+		row_default_height: 50
+		row_force_default: True
+
+		GridLayout:
+
+			cols: 2
+			rows: 1
+			size_hint: [.5, .5]
+
+			Label:
+
+				size_hint: [.4, 1]
+				text: 'Имя файла: '
+				font_size: 20
+
+			TextInput:
+
+				size_hint: [.4, None]
+				size: [200, 40]
+				id: filename
+				hint_text: 'example.xlsx'
+				font_size: 20
+
+		Button:
+
+			text: 'Загрузить тест из excel'
+			font_size: 20
+
+			on_press: root.upload()

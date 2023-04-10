@@ -1,0 +1,117 @@
+#: import Label kivy.uix.label.Label
+#:import C kivy.utils.get_color_from_hex
+#:import hex kivy.utils.get_color_from_hex
+
+<Button>:
+	background_color: C("#a6acb9")
+	background_normal: ''
+
+<AverageBttn@Button>:
+	size_hint: [None, None]
+	size: [300, 100]
+	background_color: (0, 0, 0, 0)
+	background_normal: ''
+	canvas.before:
+		Color:
+			rgba: hex('#a6acb9') if self.state=='normal' else hex('#aec0e8')
+		RoundedRectangle:
+			pos: self.pos
+			size: self.size
+			radius: [50,]
+
+<Label>:
+	font_name: 'fonts/UbuntuMono-Bold'
+
+<homepage>:
+
+	firstname: w_firstname
+	lastname: w_lastname
+	class: w_class
+
+	GridLayout:
+		rows: 4
+		cols: 2
+		spacing: 10
+		size_hint: [None, None]
+		pos_hint: {'center_x': 0.5, 'center_y': 0.5}
+		size: [600, 180]
+		Label:
+			font_size: 25
+			text: 'Имя:'
+			size_hint: [1, None]
+			size: [300, 50]
+		TextInput:
+			id: w_firstname
+			font_size: 25
+			size_hint: [None, None]
+			size: [300, 50]
+			multiline: False
+
+		Label:
+			font_size: 25
+			text: 'Фамилия:'
+			size_hint: [1, None]
+			size: [300, 50]
+		TextInput:
+			id: w_lastname
+			font_size: 25
+			size_hint: [None, None]
+			size: [300, 50]
+			multiline: False
+
+		Label:
+			font_size: 25
+			text: 'Класс:'
+			size_hint: [1, None]
+			size: [300, 50]
+		TextInput:
+			id: w_class
+			font_size: 25
+			size_hint: [None, None]
+			size: [300, 50]
+			multiline: False
+
+		Label:
+			text: ''
+			size_hint: [1, None]
+			size: [300, 50]
+		Label:
+			text: ''
+			size_hint: [1, None]
+			size: [300, 50]
+
+
+	AnchorLayout:
+
+		size_hint: [1, .5]
+		anchor_x: 'center'
+		anchor_y: 'center'
+		
+		AverageBttn:
+			text: 'Начать тестирование'
+			font_size: 25
+			on_press: root.start_test()
+
+
+<statistics>:
+	
+	orientation: 'vertical'
+
+	ScrollView:
+		size: self.size
+
+		GridLayout:
+			cols: 1
+			padding: dp(5)
+			size_hint_y: None
+			height: self.minimum_height
+
+			Label:
+				text: root.stroke
+				size_hint_y: None
+				font_size: 28
+				valign: 'top'
+				height: self.texture_size[1]
+				text_size: self.width - dp(10), None
+
+
