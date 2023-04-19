@@ -54,3 +54,50 @@ def get_tbs():
 		del data[data.index(tb_name)]
 
 	return data
+
+
+# very stupid func, pls rewrite this
+def go_cmd_ct(cmd, type_, *args):
+	conn, cur = conn_open()
+	if type_ == 'insert':
+		try:
+			if cur.execute('SELECT * FROM creator_test WHERE id = ?', ([args[3]])).fetchall() != []:
+				cur.execute(cmd, (args[0], args[1], args[2], args[3]))
+				conn.commit()
+			else:
+				cur.execute(args[4], (None, args[0], args[1], args[2]))
+				conn.commit()
+			return True
+		except Exception as e:
+			print(e)
+			return False
+	elif type_ == 'select':
+		cur.execute(cmd, [args[0]])
+		res_data = cur.fetchall()
+		return res_data
+	elif type_ == 'drop' or type_ == 'create':
+		cur.execute(cmd)
+		conn.commit()
+		return True
+	elif type_ == 'delete':
+		string = 'Новый вопрос.'
+		cur.execute(cmd, (string, ))
+		conn.commit()
+		return True
+	else:
+		print("type_ of cmd unknown. Check command for db.")
+
+
+def clear_cache_tb():
+	conn, cur = conn_open()
+	cmd = 'DROP TABLE IF EXISTS creator_test'
+	cur.execute(cmd)
+	conn.commit()
+
+
+def get_created_test():
+	conn, cur = conn_open()
+	cmd = 'SELECT * FROM creator_test'
+	cur.execute(cmd)
+	data = cur.fetchall()
+	return data

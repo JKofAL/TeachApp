@@ -3,6 +3,7 @@ import sqlite3
 import pandas as pd
 from random import shuffle
 import socket
+from pathlib import Path
 
 import os
 
@@ -14,6 +15,7 @@ DB_PATH = path+'\\teachapp.db'
 
 right_answers = list()
 questions = list()
+subject = 'infoge'
 
 
 
@@ -21,12 +23,22 @@ def loading_test():
 
 	conn = sqlite3.connect(DB_PATH)
 	cur = conn.cursor()
+
+	path = Path(__file__)
+	ROOT_DIR = path.parent.parent.absolute()
+	config_path = os.path.join(ROOT_DIR, 'test_controller.ini')
 	
-	cur.execute('SELECT type FROM infoge')
+	config = ConfigParser()
+	config.read(config_path)
+
+	test = config.get('CONFIG', 'test_name')
+	
+	cur.execute('SELECT type FROM {}'.format(test))
 	types = cur.fetchall()
 
 	try:
-		length_of_types = max(list(map(int, types)))
+		length_of_types = max(list(map(int, list(map(lambda x: x[0], types)))))
+		print('Count of types:', length_of_types)
 	except Exception as e:
 		print('[!] [LOAD] Type of question is not int, the programm cannot process the array.')
 		length_of_types = 10
@@ -34,11 +46,10 @@ def loading_test():
 	# cur.execute(f'SELECT name FROM sqlite_master WHERE type="table";')
 
 	resdata = list()
-	global right_answers
-	global questions
+	global right_answers, questions, subject
 
 	for i in range(length_of_types):
-		cur.execute('SELECT * FROM infoge WHERE type LIKE {}'.format(str(i)))
+		cur.execute('SELECT * FROM {} WHERE type LIKE {}'.format(test, str(i+1)))
 		data = cur.fetchall()
 		if data != []:
 			shuffle(data)
@@ -48,12 +59,13 @@ def loading_test():
 	print(right_answers)
 
 	questions = resdata
+	subject = test
 
 	return resdata
 
 
 def counting_the_result():
-	global right_answers, questions
+	global right_answers, questions, subject
 	localip = 'z' + str(socket.gethostname()).replace('-', 'z').replace('.', 'z')	# имя для бд
 	balls = 0																		# бал за вопрос
 	full_balls = 0																	# итоговые баллы
@@ -123,7 +135,7 @@ def counting_the_result():
 																							'пустой ответ' if incorrects['std_answer'][i] == '' else incorrects['std_answer'][i])
 
 	cur.execute('INSERT INTO students_result VALUES (?, ?, ?, ?, ?, ?, ?)',
-				(None, answers[0][0], answers[1][0], class_, 'infoge', grade, procent))
+				(None, answers[0][0], answers[1][0], class_, subject, grade, procent))
 	conn.commit()
 	conn.close()
 

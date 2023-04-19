@@ -132,7 +132,7 @@ class Starttest(Screen):
 	def build(self):
 		# условие задачи
 		box_for_text = BoxLayout(orientation='vertical', size_hint=[1, 1])
-		self.question = Label(text=self.data[0].replace('\\n', '\n\n').replace('\\u202f', '').replace('\\xa0', '\n'), font_size=24, size_hint=[0.8, 1], pos_hint={'center_x':0.5}, text_size=[100, 50], halign='center', valign='center')
+		self.question = Label(text=self.data[0].replace('\\n', '\n\n').replace('\\u202f', '').replace('\\xa0', '\n'), font_size=24, size_hint=[1, 1], pos_hint={'center_x':0.5}, halign='center', valign='center')
 		box_for_text.add_widget(self.question)
 		self.question.bind(
 									width=lambda *x: self.question.setter('text_size')(self.question, (self.question.width, None)),

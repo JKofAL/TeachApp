@@ -96,7 +96,7 @@
 
 <ChooseTest@Popup>:
 
-	on_open: root.tb_list()
+	on_open: root.tb_list(), root.test_name()
 
 	size_hint: None, None
 	size: 560, 600
@@ -107,16 +107,33 @@
 		size: self.size
 		pos_hint: {'top': 1}
 
-		GridLayout:
 
-			id: ch_tb
+		GridLayout:
 
 			size_hint_y: None
 			height: self.minimum_height
 
-			cols: 2
+			cols: 1
 			padding: 10
-			spacing: 10
+
+			Label:
+
+				id: choosed_test
+
+				size_hint_y: None
+				texture_size: self.texture_size
+
+				text: 'infoge'
+
+			GridLayout:
+
+				id: ch_tb
+
+				size_hint_y: None
+				height: self.minimum_height
+
+				cols: 2
+				spacing: 10
 
 
 <CreateTest@Popup>:
@@ -148,11 +165,17 @@
 			anchor_x: 'center'
 		
 			TextInput:
+
+				id: xlsx_writer
+
 				size_hint: None, None
 				size: 300, 50
 				halign: 'center'
 				font_size: 32
-				hint_text: 'имя_файла.xlsx'
+				multiline: False
+				write_tab: False
+				hint_text: 'comming soon'
+				on_text_validate: root.go_xlsx(self.text)
 
 		AnchorLayout:
 			anchor_y: 'center'
@@ -163,7 +186,6 @@
 				size: 300, 50
 				text: 'Создать'
 				on_release: root.go_create()
-
 
 
 <homepage>:
@@ -331,7 +353,3 @@
 									size_hint_y: None
 									color: hex('f39f18')
 
-<createscreen>:
-
-	Label:
-		text: 'create'
