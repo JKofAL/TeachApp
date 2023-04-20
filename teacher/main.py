@@ -433,11 +433,17 @@ class CreateTest(Popup):
 	def check_name(self, *args):
 		try:
 			key = args[1]
-			forbidden_char = list('[]{}-=+!@#$%^&*()"№;:?`~\\|/.,'+"' ")
-			if key[-1] in forbidden_char:
-				self.name_test.text = self.name_test.text.replace(key[-1], '')
+			if len(key) == 1:
+				if key.isdigit():
+					self.name_test.text = ''
+			else:
+				forbidden_char = list('[]{}-=+!@#$%^&*()"№;:?`~\\|/.,'+"' ")
+				if key[-1] in forbidden_char:
+					self.name_test.text = self.name_test.text.replace(key[-1], '')
+		except ValueError:
+			pass
 		except Exception as e:
-			print(e)
+			pass
 
 
 	def next_page(self, event):
