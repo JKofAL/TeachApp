@@ -342,7 +342,8 @@ class CreateTest(Popup):
 			text='Test_name',
 			hint_text='Имя теста',
 			font_size=32,
-			text_language='en_US'
+			text_language='en_US',
+			multiline=False
 			)
 		self.name_test.bind(text = self.check_name)
 		self.page_ = Label(text='Вопрос: '+self.page, font_size=22)
@@ -385,11 +386,13 @@ class CreateTest(Popup):
 		self.right_answer = TextInput(hint_text='Правильный ответ.',
 			size_hint=(None, 1),
 			size=(300, 50),
-			font_size=32)
+			font_size=32,
+			multiline=False)
 		self.ball = TextInput(hint_text='Кол-во баллов.',
 			size_hint=(None, 1),
 			size=(300, 50),
-			font_size=32)
+			font_size=32,
+			multiline=False)
 		dop_input.add_widget(self.ball)
 		dop_input.add_widget(self.right_answer)
 		box_for_doptxtinp.add_widget(dop_input)
