@@ -201,7 +201,11 @@ class MyPopup(Popup):
 class ExcelPopup(Popup):
 
 	def go_xlsx(self):
-		os.system('D:\\BETA\\grades.xlsx')
+
+		excel_path = path('grades.xlsx')
+
+		print('opening excel')
+		os.system(excel_path)
 
 
 ######################################################
@@ -214,12 +218,7 @@ class ChooseTest(Popup):
 	# Function for getting settings from a configuration file
 	def config_settings(self):
 
-		# Getting the path to the current file
-		path = Path(__file__)
-		# Getting the path to the root directory of the project
-		ROOT_DIR = path.parent.parent.absolute()
-		# We form the path to the configuration file, which is located in the root of the project
-		config_path = os.path.join(ROOT_DIR, "test_controller.ini")
+		config_path = path('test_controller.ini')
 
 		# Creating a configuration file parser object
 		config = ConfigParser()
@@ -592,6 +591,21 @@ class CreateTest(Popup):
 
 	def clear_text_xlsx(self, event):
 		self.ids.xlsx_writer.text = ''
+
+
+#######################################################
+## other functions
+#######################################################
+
+def path(direct):
+	# Getting the path to the current file
+	path = Path(__file__)
+	# Getting the path to the root directory of the project
+	ROOT_DIR = path.parent.parent.absolute()
+	# We form the path to the configuration file, which is located in the root of the project
+	project_path = os.path.join(ROOT_DIR, direct)
+
+	return project_path
 
 
 #######################################################
