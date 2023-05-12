@@ -31,7 +31,7 @@
 
 ### Teacher
 
-![Использование GUI](https://github.com/JKofAL/TeachApp/git_doc/teacher_gui.gif)
+![Использование GUI](https://github.com/JKofAL/TeachApp/blob/master/git_doc/teacher_gui.gif)
 
 ### Student
 
