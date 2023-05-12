@@ -31,7 +31,7 @@
 
 ### Teacher
 
-![Использование GUI](file:///C:/Users/1/Downloads/Recording%202023-05-12%20at%2022.40.20.gif)
+![Использование GUI](https://github.com/JKofAL/TeachApp/git_doc/teacher_gui.gif)
 
 ### Student
 
