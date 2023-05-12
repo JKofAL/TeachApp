@@ -31,7 +31,7 @@
 
 ### Teacher
 
-![Использование GUI](file:///C:/Users/1/Downloads/Recording%202023-05-12%20at%2022.40.20.gif, 'GUI TeachApp')
+![Использование GUI](file:///C:/Users/1/Downloads/Recording%202023-05-12%20at%2022.40.20.gif)
 
 ### Student
 
