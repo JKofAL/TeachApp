@@ -35,4 +35,4 @@
 
 ### Student
 
-GUI вообще капец как понятен.
+![Использование GUI](https://github.com/JKofAL/TeachApp/blob/master/git_doc/student_gui.gif)
