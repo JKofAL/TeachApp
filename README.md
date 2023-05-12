@@ -8,6 +8,8 @@ TeachApp - ПО, предназначенное для тестирования 
 
 Этот проект вдохновлён приложением [MyTest](https://mytest.klyaksa.net/wiki/Заглавная_страница).
 
+![MyTest](https://1.bp.blogspot.com/-ugIQbWrSQ7A/UOf5-plJk4I/AAAAAAAAAXA/Kn_GsfUkEZU/s1600/Mtx101.png, "MyTest")
+
 > В данный момент MyTest используется в образовательных учреждениях в целях проведения тестов.
 
 ## Использование
