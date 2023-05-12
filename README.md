@@ -1,10 +1,12 @@
 <!-- New doc for TeachApp -->
 
+![TeachApp](https://sun9-36.userapi.com/impg/yfixA-Ss_m0TbqKT5W2I8etzN6KfFRx6jxaW5Q/Ympi_rJL52k.jpg?size=976x183&quality=96&sign=c3e436ed1960e92d229bfc2efbd54899&type=album, "TeachApp")
+
 # TeachApp
 
 ## Описание
 
-TeachApp - ПО, предназначенное для тестирования в любых учереждениях, где присутствуют стационарные компьютеры или локальная сеть компьютеров с сетевым диском.
+**TeachApp** - ПО, предназначенное для тестирования в любых учереждениях, где присутствуют стационарные компьютеры или локальная сеть компьютеров с сетевым диском.
 
 Этот проект вдохновлён приложением [MyTest](https://mytest.klyaksa.net/wiki/Заглавная_страница).
 
