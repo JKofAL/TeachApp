@@ -55,7 +55,6 @@ from configparser import ConfigParser
 import time
 import os
 import atexit
-from pathlib import Path
 
 from DB_CONTROL import *
 
@@ -219,7 +218,7 @@ class ChooseTest(Popup):
 	def config_settings(self):
 
 		config_path = path('test_controller.ini')
-
+		print(config_path)
 		# Creating a configuration file parser object
 		config = ConfigParser()
 		# Reading the configuration file
@@ -599,11 +598,10 @@ class CreateTest(Popup):
 
 def path(direct):
 	# Getting the path to the current file
-	path = Path(__file__)
-	# Getting the path to the root directory of the project
-	ROOT_DIR = path.parent.parent.absolute()
+	path = os.getcwd()
 	# We form the path to the configuration file, which is located in the root of the project
-	project_path = os.path.join(ROOT_DIR, direct)
+
+	project_path = path + '\\' + direct
 
 	return project_path
 

@@ -3,7 +3,6 @@ import sqlite3
 import pandas as pd
 from random import shuffle
 import socket
-from pathlib import Path
 
 import os
 
@@ -24,12 +23,12 @@ def loading_test():
 	conn = sqlite3.connect(DB_PATH)
 	cur = conn.cursor()
 
-	path = Path(__file__)
-	ROOT_DIR = path.parent.parent.absolute()
-	config_path = os.path.join(ROOT_DIR, 'test_controller.ini')
+	config_path = path + '\\test_controller.ini'
 	
+
 	config = ConfigParser()
 	config.read(config_path)
+
 
 	test = config.get('CONFIG', 'test_name')
 	
@@ -38,9 +37,7 @@ def loading_test():
 
 	try:
 		length_of_types = max(list(map(int, list(map(lambda x: x[0], types)))))
-		print('Count of types:', length_of_types)
 	except Exception as e:
-		print('[!] [LOAD] Type of question is not int, the programm cannot process the array.')
 		length_of_types = 10
 
 	# cur.execute(f'SELECT name FROM sqlite_master WHERE type="table";')
@@ -56,7 +53,6 @@ def loading_test():
 			resdata.append(data[0][2])
 			right_answers.append((data[0][3], data[0][4]))
 
-	print(right_answers)
 
 	questions = resdata
 	subject = test
@@ -77,15 +73,6 @@ def counting_the_result():
 	cur = conn.cursor()
 	cur.execute('SELECT answer FROM {}'.format(localip))
 	answers = cur.fetchall()
-
-	print('[+] [SQL Controller] All answers recieved.\nData:')
-	for data_cell in answers:
-		print(data_cell)
-
-	print('[!] [SQL Controller] Right answers recieved.\nData:')
-	for r_answ in right_answers:
-		print(r_answ)
-
 
 	cur.execute('DROP TABLE {}'.format(localip))
 	conn.commit()
@@ -116,7 +103,6 @@ def counting_the_result():
 	procent = balls/full_balls * 100
 	procent = round(procent, 2)
 
-	print(procent, '%')
 
 	if procent > 75:
 		grade = 5
@@ -127,7 +113,6 @@ def counting_the_result():
 	else:
 		grade = 2
 
-	print(answers[1][0], ': ', grade)
 
 	for i in range(len(incorrects['question'])):
 		incorrects_label += '\nВопрос:\n\n{}\nПравильный ответ: {}\nВаш ответ: {}\n'.format(incorrects['question'][i],
