@@ -31,7 +31,7 @@
 
 ### Teacher
 
-GUI интуитивно понятен.
+![Использование GUI](https://drive.google.com/file/d/10t2Q3kit4yZ7Z7sqsd80yyVNHDF4mhOP/view?usp=share_link, 'GUI TeachApp')
 
 ### Student
 
