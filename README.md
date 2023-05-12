@@ -31,7 +31,7 @@
 
 ### Teacher
 
-![Использование GUI](https://drive.google.com/file/d/10t2Q3kit4yZ7Z7sqsd80yyVNHDF4mhOP/view?usp=share_link, 'GUI TeachApp')
+![Использование GUI](file:///C:/Users/1/Downloads/Recording%202023-05-12%20at%2022.40.20.gif, 'GUI TeachApp')
 
 ### Student
 
