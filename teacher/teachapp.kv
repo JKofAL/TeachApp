@@ -3,7 +3,7 @@
 #:import hex kivy.utils.get_color_from_hex
 #:import Factory kivy.factory.Factory
 
-<Button>:
+<CustomBtn@Button>:
 	background_color: (0, 0, 0, 0)
 	background_normal: ''
 	color: (0, 0, 0, 1)
@@ -42,7 +42,7 @@
 
 	size_hint: .3, .2
 
-	Button:
+	CustomBtn:
 		size_hint: .5, .8
 		text: 'открыть файл'
 		color: (0, 0, 0, 1)
@@ -82,7 +82,7 @@
 			pos_hint:{'center_x':0.5}
 
 
-		Button:
+		CustomBtn:
 
 			text: 'Продолжить'
 			font_size: 12
@@ -116,14 +116,67 @@
 			cols: 1
 			padding: 10
 
-			Label:
-
-				id: choosed_test
+			BoxLayout:
 
 				size_hint_y: None
-				texture_size: self.texture_size
+				height: 50
+				padding: 50
 
-				text: 'infoge'
+				AnchorLayout:
+					anchor_x: 'center'
+					anchor_y: 'top'
+
+					BoxLayout:
+
+						orientation: 'horizontal'
+
+						size_hint: None, None
+						height: 50
+						width: 400
+
+						spacing: 20
+
+
+						CustomBtn:
+
+							size_hint: None, None
+							size: 50, 50
+							on_press: root.edit_test(choosed_test.text)
+
+							Image:
+								source: 'img/edit.ico'
+								size: list(map(lambda x: x-10, self.parent.size))
+								pos: list(map(lambda x: x+5, self.parent.pos))
+								x: self.parent.x
+								y: self.parent.y
+								keep_ratio: False
+
+
+						Label:
+
+							id: choosed_test
+
+							size_hint_y: None
+							texture_size: self.texture_size
+							height: 50
+
+							text: 'infoge'
+
+
+						CustomBtn:
+
+							size_hint: None, None
+							size: 50, 50
+							on_press: root.delete_test(choosed_test.text)
+
+							Image:
+								source: 'img/trash.ico'
+								size: list(map(lambda x: x-10, self.parent.size))
+								pos: list(map(lambda x: x+5, self.parent.pos))
+								x: self.parent.x
+								y: self.parent.y
+								keep_ratio: False
+
 
 			GridLayout:
 
@@ -134,6 +187,7 @@
 
 				cols: 2
 				spacing: 10
+				padding: 30
 
 
 <CreateTest@Popup>:
@@ -181,7 +235,7 @@
 			anchor_y: 'center'
 			anchor_x: 'center'
 
-			Button:
+			CustomBtn:
 				size_hint: None, None
 				size: 300, 50
 				text: 'Создать'
@@ -227,7 +281,7 @@
 				size_hint_x: .1
 				orientation: 'rl-tb'
 
-				Button:
+				CustomBtn:
 					size_hint: None, None
 					size: self.width, self.width
 					on_release:Factory.ChooseTest().open()
@@ -239,7 +293,7 @@
 						height: self.parent.height-10
 						keep_ratio: False
 
-				Button:
+				CustomBtn:
 					size_hint: None, None
 					size: self.width, self.width
 					on_release: Factory.CreateTest().open()
@@ -274,7 +328,7 @@
 						padding: 10
 						spacing: 10
 						
-						Button:
+						CustomBtn:
 							size_hint: None, None
 							size: 50, 50
 							on_release: root.repeat_tb()
@@ -286,7 +340,7 @@
 								height: self.parent.height
 								keep_ratio: False
 
-						Button:
+						CustomBtn:
 							text: 'To excel'
 							size_hint: None, None
 							size: 150, 50

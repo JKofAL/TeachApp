@@ -47,6 +47,21 @@ from kivy.properties import (
 	NumericProperty,
 )
 
+from kivy.logger import Logger, LOG_LEVELS
+
+Logger.setLevel(LOG_LEVELS['debug'])
+
+##################################################
+##												##
+##	log level's titles:							##
+##												##
+##	PATH 	::	show path to some file or dir 	##
+##	SCRIPT	::	the result of the scripts		##
+##	GUI 	::	gui changes						##
+##	UNFIN	::	unfinished scripts				##
+##												##
+##################################################
+
 from functools import partial
 import pandas as pd
 import xlsxwriter
@@ -71,6 +86,10 @@ windll.user32.SetProcessDpiAwarenessContext(c_int64(-4))
 -------------------------  widgets -------------------------
 ----------------------------------------------------------------
 '''
+
+
+class CustomBtn(Button):
+	pass
 
 
 class Homepage(Screen):
@@ -148,7 +167,7 @@ class Homepage(Screen):
 					box.add_widget(label)
 					self.tb.add_widget(box)
 
-		print('Table is upadted.')
+		Logger.debug('GUI: Table is upadted.')
 
 
 	def write_xlsx(self):
@@ -203,7 +222,7 @@ class ExcelPopup(Popup):
 
 		excel_path = path('grades.xlsx')
 
-		print('opening excel')
+		Logger.debug('SCRIPT: Opening excel.')
 		os.system(excel_path)
 
 
@@ -218,7 +237,7 @@ class ChooseTest(Popup):
 	def config_settings(self):
 
 		config_path = path('test_controller.ini')
-		print(config_path)
+		Logger.info(f'PATH: Config path: "{config_path}".')
 		# Creating a configuration file parser object
 		config = ConfigParser()
 		# Reading the configuration file
@@ -240,22 +259,51 @@ class ChooseTest(Popup):
 		tbs = get_tbs()
 
 		for tb in tbs:
-			btn = Button(text=tb, size_hint=(.5, None), height=50, on_release=self.apply_choose)
+			btn = CustomBtn(text=tb, size_hint=(.5, None), height=50, on_release=self.apply_choose)
 			self.ids['ch_tb'].add_widget(btn)
 
 
 	def apply_choose(self, instance):
 
+		self.title_choosed_test(instance.text)
+
+
+	def edit_test(self, *args):
+
+		Logger.debug(f'SCRIPT: Edit "{args[0]}" test.')
+
+
+	def delete_test(self, *args):
+
+		Logger.debug(f'SCRIPT: Delete "{args[0]}" test.')
+
+		conn, cur = conn_open()
+
+		cur.execute('DROP TABLE {}'.format(args[0]))
+		conn.commit()
+
+		self.title_choosed_test(get_tbs()[0])
+
+		# for child in self.ids['ch_tb'].children:
+		# 	if child.text == args[0]:
+		# 		self.remove_widget(self.ids['ch_tb'].children[2])
+		
+		# don't work, should update screen to remove in real time or user should re-open popup
+		# or i should add all buttons to Object Property for delete them
+
+
+	def title_choosed_test(self, test):
+
 		config, config_path = self.config_settings()
 
-		config.set('CONFIG', 'test_name', instance.text)
+		config.set('CONFIG', 'test_name', test)
 
 		with open(config_path, 'w') as cfg_file:
 			config.write(cfg_file)
 
-		self.ids['choosed_test'].text = instance.text
+		self.ids['choosed_test'].text = test
 
-		print('[+] [INI] Test choosed successfully.')
+		Logger.debug('SCRIPT: Test choosed successfully.')
 
 
 class CreateTest(Popup):
@@ -328,7 +376,7 @@ class CreateTest(Popup):
 		navigate = GridLayout(cols=4, orientation='rl-tb', size_hint=(1, .1), spacing=10, padding=10, rows=1)
 		nav_btn_text = ['Следующий', 'Предыдущий']
 		for btn_text in nav_btn_text:
-			nav_btn = Button(
+			nav_btn = CustomBtn(
 				text=btn_text,
 				size_hint=(None, None),
 				size=(250, 50),
@@ -404,7 +452,7 @@ class CreateTest(Popup):
 		#######################################################
 		box_for_apply = BoxLayout(size_hint=(1, None), height=50)
 		anchor_btn = AnchorLayout(anchor_x='right')
-		apply_btn = Button(
+		apply_btn = CustomBtn(
 			text='Создать тест',
 			size_hint=(None, 1),
 			width=300,
@@ -522,9 +570,9 @@ class CreateTest(Popup):
 		box_txt.add_widget(label)
 
 		btn_grid = GridLayout(cols=2, size_hint=(1, .4), spacing=50, padding=50)
-		btn_grid.add_widget(Button(
+		btn_grid.add_widget(CustomBtn(
 			text='Исправить.', on_release=lambda *args: self.confirm.dismiss()))
-		btn_grid.add_widget(Button(
+		btn_grid.add_widget(CustomBtn(
 			text='Завершить.', on_release=self.confirmation))
 
 		content.add_widget(box_txt)
@@ -562,18 +610,18 @@ class CreateTest(Popup):
 		try:
 			cur.execute(cmd)
 			conn.commit()
-			print('success')
+			Logger.debug('SCRIPT: Success.')
 		except sqlite3.Error as e:
-			print(e, 'creating db')
+			Logger.exception(f'{e} creating db.')
 		cmd = '''
 		INSERT INTO {} VALUES (?, ?, ?, ?, ?)'''.format(self.name_test.text)
 		try:
 			for row in data:
 				cur.execute(cmd, (None, row[0], row[1], row[2], int(row[3])))
 				conn.commit()
-			print('data writted success')
+			Logger.debug('SCRIPT: Data writted success.')
 		except sqlite3.Error as e:
-			print(e, 'writing data')
+			Logger.exception(f'{e} writing data.')
 
 
 	def go_xlsx(self, file):
